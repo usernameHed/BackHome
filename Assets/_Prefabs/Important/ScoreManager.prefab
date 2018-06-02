@@ -52,4 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    scorePlayer: 0000000000000000
+    checkpoint: 0
+    maxCollectible: 7
+    currentCollectible: 0
+    restarted: 0

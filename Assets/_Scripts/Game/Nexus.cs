@@ -52,6 +52,7 @@ public class Nexus : MonoBehaviour, IKillable
         if (ps)
             ps.Stop();
 
+        ScoreManager.Instance.Data.AddCollectible();
 
         enabledObject = false;
         SoundManager.Instance.PlaySound("Collectible");
