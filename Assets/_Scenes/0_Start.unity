@@ -396,7 +396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54b5fe989c8e90645859c3dbaf70ca46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enabledVibration: 0
+  enabledVibration: 1
   simulatePlayerOneifNoGamePad: 1
   playerArrayConnected: 01000000
 --- !u!114 &782985274
@@ -886,6 +886,17 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
+        _actionId: 7
+        _elementType: 0
+        _elementIdentifierId: 2
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
         _actionId: 16
         _elementType: 0
         _elementIdentifierId: 2
@@ -900,6 +911,17 @@ MonoBehaviour:
         _actionId: 6
         _elementType: 0
         _elementIdentifierId: 1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 0
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 6
+        _elementType: 0
+        _elementIdentifierId: 3
         _axisRange: 0
         _invert: 0
         _axisContribution: 0
@@ -6750,6 +6772,16 @@ Prefab:
     - target: {fileID: 4573100595840998, guid: 36ef5507a8506fd45bb432278af0276a, type: 2}
       propertyPath: m_RootOrder
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299139145789712, guid: 36ef5507a8506fd45bb432278af0276a,
+        type: 2}
+      propertyPath: data.simplified
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299139145789712, guid: 36ef5507a8506fd45bb432278af0276a,
+        type: 2}
+      propertyPath: data.maxCollectible
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 36ef5507a8506fd45bb432278af0276a, type: 2}

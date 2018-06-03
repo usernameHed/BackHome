@@ -17,6 +17,9 @@ public class PlayerData : PersistantData
     private int currentCollectible = 0;
     public int CurrentCollectible { get { return currentCollectible; } }
 
+    [FoldoutGroup("GamePlay"), Tooltip("checkpoint"), SerializeField]
+    private bool simplified = false;
+
     [FoldoutGroup("GamePlay"), Tooltip(""), SerializeField]
     private bool restarted = false;
 
@@ -30,6 +33,15 @@ public class PlayerData : PersistantData
     public int GetCheckpoint()
     {
         return (checkpoint);
+    }
+
+    public void SetSimplified(bool simple)
+    {
+        simplified = simple;
+    }
+    public bool GetSimplified()
+    {
+        return (simplified);
     }
 
     public void AddCollectible()

@@ -94,28 +94,28 @@ public class PlayerModifyRope : MonoBehaviour
 
         if (playerInput.ModyfyRopeRemoveDownInput > 0)
         {
-            RemoveRopeParticle();
+            RemoveRopeParticle(true);
         }
         else if (playerInput.ModyfyRopeAddDownInput > 0)
         {
-            AddRopeParticle();
+            AddRopeParticle(true);
         }
     }
 
-    private void AddRopeParticle()
+    private void AddRopeParticle(bool vibration = false)
     {
         if (ropeHandler.ParticleInRope < maxParticle)
         {
             //on peut ajouter
-            ropeHandler.ChangeParticleInRope(true, speedChange);
+            ropeHandler.ChangeParticleInRope(true, speedChange, vibration);
         }
     }
-    private void RemoveRopeParticle()
+    private void RemoveRopeParticle(bool vibration = false)
     {
         if (ropeHandler.ParticleInRope > minParticle && ropeHandler.actualTensity < maxTensityForLess)
         {
             //on peut supprimer
-            ropeHandler.ChangeParticleInRope(false, speedChange);
+            ropeHandler.ChangeParticleInRope(false, speedChange, vibration);
         }
     }
 

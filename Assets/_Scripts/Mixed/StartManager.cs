@@ -24,7 +24,7 @@ public class StartManager : MonoBehaviour, ILevelManager
         enabledScript = true;
         Debug.Log("play start");
         SoundManager.Instance.PlaySound("Play_ambiance");
-        Cursor.visible = false;
+        Cursor.visible = true;
     }
 
     #endregion

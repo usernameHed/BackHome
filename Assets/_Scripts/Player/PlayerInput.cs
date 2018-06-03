@@ -88,8 +88,8 @@ public class PlayerInput : MonoBehaviour
         fatUpInput = PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetButtonUp("FireY");
         fatDownInput = PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetButtonDown("FireY");
 
-        modyfyRopeAddDownInput = PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("LeftTrigger2");
-        modyfyRopeRemoveDownInput = PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("RightTrigger2");
+        modyfyRopeAddDownInput = Mathf.Clamp((PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("LeftTrigger2") + PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("RightTrigger1")), 0f, 1f);
+        modyfyRopeRemoveDownInput = Mathf.Clamp((PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("RightTrigger2") + PlayerConnected.Instance.getPlayer(playerController.IdPlayer).GetAxis("LeftTrigger1")), 0f, 1f);
     }
     #endregion
 

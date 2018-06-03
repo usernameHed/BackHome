@@ -14,6 +14,9 @@ public class MenuManager : MonoBehaviour, ILevelManager
     [FoldoutGroup("Objects"), Tooltip("Debug"), SerializeField]
     private List<Button> buttonsMainMenu;
 
+    [FoldoutGroup("Objects"), Tooltip("Debug"), SerializeField]
+    private Toggle simplified;
+
     public FrequencyCoolDown coolDownButton;
 
     private bool enabledScript = false;
@@ -26,13 +29,28 @@ public class MenuManager : MonoBehaviour, ILevelManager
     /// </summary>
     public void InitScene()
     {
+        Cursor.visible = true;
         enabledScript = true;
+
+        SetToggleOnStart();
+
         ScoreManager.Instance.Data.SetDefault();
 
         SoundManager.Instance.PlaySound("MenuMusic_Play");
         
 
         coolDownButton.StartCoolDown();
+    }
+
+    private void SetToggleOnStart()
+    {
+        simplified.isOn = ScoreManager.Instance.Data.GetSimplified();
+    }
+
+    private void SetAlternativeControl()
+    {
+        ScoreManager.Instance.Data.SetSimplified(simplified.isOn);
+        Cursor.visible = simplified.isOn;
     }
 
     #endregion
@@ -52,6 +70,8 @@ public class MenuManager : MonoBehaviour, ILevelManager
         //SoundManager.Instance.PlaySound("MenuMusic_stop");
 
         ScoreManager.Instance.ResetAll();
+        SetAlternativeControl();
+
         GameManager.Instance.SceneManagerLocal.PlayNext();
     }
 

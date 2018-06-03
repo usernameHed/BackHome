@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using Sirenix.OdinInspector;
 using System.Collections.Generic;
+using WorldCollisionNamespace;
+using System.Collections;
 
 /// <summary>
 /// WrapMode Description
@@ -42,12 +44,22 @@ public class PlayerGrip : MonoBehaviour
     [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
     private PlayerController playerController;
     [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
+    private PlayersManager playerManager;
+    [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
     private AnimController animController;
 
     public bool hardGrip = false;
     private bool stopAction = false;    //le joueur est-il stopé ?
     private Vector3 pointAttract;
     private bool isTryingToUngrip = false;
+
+    [FoldoutGroup("GamePlay"), Tooltip("temps cooldown hardgrip and mode simplifié"), SerializeField]
+    private FrequencyCoolDown waitHardUngrip;
+
+    [FoldoutGroup("GamePlay"), Tooltip("temps cooldown quand on a raté le grip"), SerializeField]
+    private FrequencyCoolDown waitMissedGrip;
+
+    private bool tryToAccrocheAfter = false;
 
     #endregion
 
@@ -116,12 +128,21 @@ public class PlayerGrip : MonoBehaviour
         if (!hardGrip)
         {
             hardGrip = true;
-            SetGrip(true);
+            bool succes = SetGrip(true);
+            tryToAccrocheAfter = false;
+            waitMissedGrip.Reset();
+
+            if (!succes)
+            {
+                tryToAccrocheAfter = true;
+                waitMissedGrip.StartCoolDown();
+            }
         }
         else
         {
             hardGrip = false;
             SetGrip(false);
+            tryToAccrocheAfter = false;
         }
     }
 
@@ -142,7 +163,10 @@ public class PlayerGrip : MonoBehaviour
             Debug.Log("ici grip");
             isTryingToUngrip = false;
             display.SetActive(true);
+
+
             ropeHandler.SomeOneGripToWall();
+
             rb.drag = dragWhenGrip;
             animController.AnimGrip(true);
         }
@@ -182,7 +206,71 @@ public class PlayerGrip : MonoBehaviour
             coolDownGrip.StartCoolDown();
             hardGrip = false;
             gripped = false;
+            tryToAccrocheAfter = false;
             animController.AnimGrip(false);
+        }
+    }
+
+    private bool HardGripSetup()
+    {
+        if (!ScoreManager.Instance.Data.GetSimplified())
+            return (false);
+
+        
+
+        if (inputPlayer.GripDownInput && !gripped && waitHardUngrip.IsReady())
+        {
+            SetHardGrip();
+            Debug.Log("ici grip haaaaard !");
+            waitHardUngrip.StartCoolDown();
+        }
+        else if (inputPlayer.GripDownInput && (gripped || hardGrip) && waitHardUngrip.IsReady())
+        {
+            ResetGrip();
+            Debug.Log("ici unnnnnnngrip haaaaard !");
+            waitHardUngrip.StartCoolDown();
+        }
+
+        if (tryToAccrocheAfter && !waitMissedGrip.IsReady())
+        {
+            Debug.Log("ICIIIIII ON CONTINUE A ESSAYER");
+            if (CanGrip())
+            {
+                Debug.Log("ici on hard grip ??");
+                GripHard();
+            }
+             
+        }
+
+
+        return (true);
+    }
+
+    private void GripHard()
+    {
+        hardGrip = true;
+        bool succes = SetGrip(true);
+        tryToAccrocheAfter = false;
+        waitMissedGrip.Reset();
+
+    }
+
+    public void TryToAutoGrip()
+    {
+        if (!ScoreManager.Instance.Data.GetSimplified())
+            return;
+
+        Debug.Log("TRY TO AUTO GRIP");
+
+        StartCoroutine(AutoGrip());
+    }
+
+    private IEnumerator AutoGrip()
+    {
+        yield return new WaitForEndOfFrame();
+        if (playerManager.IsOtherIsGripped(playerController.IdPlayer) && !worldCollision.IsOnFloor())
+        {
+            SetHardGrip();
         }
     }
 
@@ -260,6 +348,9 @@ public class PlayerGrip : MonoBehaviour
     private void GroundedAction()
     {
         if (stopAction)
+            return;
+
+        if (HardGripSetup())
             return;
 
         if (hardGrip)

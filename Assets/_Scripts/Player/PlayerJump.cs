@@ -128,7 +128,7 @@ public class PlayerJump : MonoBehaviour
         coolDownJump.StartCoolDown();   //le coolDown normal du jump
         playerAirJump.CoolDownBeforeFirstAirJump.StartCoolDown();   //démar le air jump cool Down
 
-        PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onJump); //set vibration de saut
+        //PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onJump); //set vibration de saut
         hasJumpAndFlying = true; //on vient de sauter ! tant qu'on retombe pas, on est vrai
 
         Debug.DrawRay(transform.position, dir, Color.red, 5f);
@@ -183,11 +183,13 @@ public class PlayerJump : MonoBehaviour
             SoundManager.Instance.PlaySound("Play_pas");
             hasJumpAndFlying = false;
             playerControlledAirJump.ControlledAirJumpSetup(false, Vector3.zero);
-            PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onGrounded);
+            //PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onGrounded);
             playerController.PlayersManager.Jump(playerController.IdPlayer);
 
             playerController.PlayersManager.ResetOtherWhenGrounded(playerController.IdPlayer);
             externalForce.ResetInitialParameter();
+
+            playerGrip.TryToAutoGrip();
 
             playerAirJump.ResetAirJump();   //reset les air jump
         }

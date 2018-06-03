@@ -157,6 +157,8 @@ public class PlayerPenduleMove : SerializedMonoBehaviour
     [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
     private PlayerJump playerJump;
     [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
+    private PlayerGrip playerGrip;
+    [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
     private PlayerAutoAirMove playerControlledAirJump;
     [FoldoutGroup("Debug"), Tooltip("ref"), SerializeField]
     private JumpCalculation jumpCalculation;
@@ -958,6 +960,9 @@ public class PlayerPenduleMove : SerializedMonoBehaviour
                 if (worldCollision.IsGroundedSafe())
                 {
                     Debug.Log("ici on vient de se grounded, s'accrocher automatiquement ?");
+
+                    playerGrip.TryToAutoGrip();
+
                     coolDownStilAccrocheABitWhenEndTense.StartCoolDown();
                 }
                 else

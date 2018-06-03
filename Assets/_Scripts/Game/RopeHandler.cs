@@ -409,16 +409,18 @@ public class RopeHandler : MonoBehaviour
     /// <summary>
     /// ajout ou supprime des particules de la rope, à un evitesse donné
     /// </summary>
-    public void ChangeParticleInRope(bool addition, float speed)
+    public void ChangeParticleInRope(bool addition, float speed, bool vibration = false)
     {
         if (addition)
         {
-            AddVibration(true);
+            if (vibration)
+                AddVibration(true);
             cursor.ChangeLength(rope.RestLength + speed * Time.deltaTime);
         }
         else
         {
-            AddVibration(false);
+            if (vibration)
+                AddVibration(false);
             cursor.ChangeLength(rope.RestLength - speed * Time.deltaTime);
         }
             
@@ -517,7 +519,7 @@ public class RopeHandler : MonoBehaviour
             return;
         
         Debug.Log("on est en train d'allonger !");
-        AddVibration(true);
+        //AddVibration(true);
 
         if (particleInRope < numberParticleBase)
         {
