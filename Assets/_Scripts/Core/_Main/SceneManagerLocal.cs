@@ -53,6 +53,8 @@ public class SceneManagerLocal : MonoBehaviour
 
     private ILevelManager levelManger;
     public ILevelManager LevelManagerScript { get { return (levelManger); } }
+
+    private bool enabledScript = true;
     #endregion
 
     #region Initialization
@@ -67,8 +69,8 @@ public class SceneManagerLocal : MonoBehaviour
             if (levelManger == null)
                 Debug.LogError("PAS DE III LEVEL MANAGER");
         }
-            
 
+        
         GameManager.Instance.SceneManagerLocal = this;
 
         InitSceneLoading();
@@ -81,6 +83,8 @@ public class SceneManagerLocal : MonoBehaviour
     /// </summary>
     private void InitSceneLoading()
     {
+        enabledScript = true;
+
         for (int i = 0; i < sceneToLoad.Count; i++)
         {
             if (sceneToLoad[i].loadAtStart && sceneToLoad[i].active)
@@ -134,6 +138,11 @@ public class SceneManagerLocal : MonoBehaviour
     [FoldoutGroup("Debug"), Button("Play")]
     public void PlayNext()
     {
+        if (!enabledScript)
+            return;
+
+        enabledScript = false;
+
         SceneManagerGlobal.Instance.ActivateScene(
             sceneToLoad[0].scene,
             sceneToLoad[0].fade,
@@ -143,6 +152,11 @@ public class SceneManagerLocal : MonoBehaviour
     }
     public void PlayPrevious(bool unloadFirst = true)
     {
+        if (!enabledScript)
+            return;
+
+        enabledScript = false;
+
         if (unloadFirst)
             SceneManagerGlobal.Instance.UnloadScene(sceneToLoad[0].scene);
 
@@ -155,6 +169,11 @@ public class SceneManagerLocal : MonoBehaviour
 
     public void PlayIndex(int index, bool unloadFirst = true)
     {
+        if (!enabledScript)
+            return;
+
+        enabledScript = false;
+
         if (unloadFirst)
             SceneManagerGlobal.Instance.UnloadScene(sceneToLoad[0].scene);
 
@@ -168,6 +187,11 @@ public class SceneManagerLocal : MonoBehaviour
     [FoldoutGroup("Debug"), Button("Quit")]
     public void Quit()
     {
+        if (!enabledScript)
+            return;
+
+        enabledScript = false;
+
         SceneManagerGlobal.Instance.QuitGame(true);
     }
 

@@ -42,13 +42,11 @@ public class CinematicManager : MonoBehaviour, ILevelManager
     [FoldoutGroup("Debug"), Button("Play")]
     public void Play()
     {
-        /*Debug.Log("play ici menu");
-        //SoundManager.Instance.PlaySound("Play_Music_Menu", true);
-        SoundManager.Instance.PlaySound("Stop_all");
-        //SoundManager.Instance.PlaySound("MenuMusic_stop");
-        ScoreManager.Instance.ResetAll();
+        if (!coolDownButton.IsReady())
+            return;
+        enabledScript = false;
+
         GameManager.Instance.SceneManagerLocal.PlayNext();
-        */
     }
 
     [FoldoutGroup("Debug"), Button("Quit")]
@@ -72,6 +70,11 @@ public class CinematicManager : MonoBehaviour, ILevelManager
            || PlayerConnected.Instance.getButtonDownFromAnyGamePad("Back"))
         {
             Quit();
+        }
+        if (PlayerConnected.Instance.getPlayer(-1).GetButtonDown("Restart")
+            || PlayerConnected.Instance.getButtonDownFromAnyGamePad("Restart"))
+        {
+            Play();
         }
     }
 
