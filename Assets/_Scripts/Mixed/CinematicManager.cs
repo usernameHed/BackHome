@@ -13,6 +13,7 @@ public class CinematicManager : MonoBehaviour, ILevelManager
 
     private bool enabledScript = false;
     public int indexCinematicBack = 0;
+    public bool canSkip = true;
 
     public FrequencyCoolDown coolDownButton;
     #endregion
@@ -85,6 +86,10 @@ public class CinematicManager : MonoBehaviour, ILevelManager
     {
         if (!enabledScript)
             return;
+
+        if (!canSkip)
+            return;
+
         InputLevel();
     }
     #endregion
