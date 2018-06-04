@@ -78,6 +78,8 @@ public class PlayerJump : MonoBehaviour
         jumpStop = false;
         hasJumpAndFlying = false;
         stopAction = false;
+        jumpHeight = ScoreManager.Instance.Data.GetSimplified() ? 25 : 15;
+        stayHold = ScoreManager.Instance.Data.GetSimplified();
     }
     #endregion
 
@@ -94,8 +96,14 @@ public class PlayerJump : MonoBehaviour
             return (false);
 
         //faux si on hold pas et quand a pas laché
-        if (jumpStop && !stayHold)
+        if (jumpStop && (!stayHold || (stayHold && playerInput.GripInput && ScoreManager.Instance.Data.GetSimplified())))
             return (false);
+
+        if (playerInput.GripInput && ScoreManager.Instance.Data.GetSimplified())
+        {
+            return (false);
+        }
+
         //faux si le cooldown n'est pas fini
         if (!coolDownJump.IsReady())
             return (false);

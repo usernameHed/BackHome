@@ -45,6 +45,7 @@ public class PlayerAirJump : MonoBehaviour
     private void InitValue()
     {
         stopAction = false;
+        //airJump = (ScoreManager.Instance.Data.GetSimplified()) ? 2 : -1;
     }
     #endregion
 
@@ -112,7 +113,7 @@ public class PlayerAirJump : MonoBehaviour
         if (!CanJump())
             return (false);
 
-        PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onAirJump); //set vibration de saut
+        //PlayerConnected.Instance.setVibrationPlayer(playerController.IdPlayer, onAirJump); //set vibration de saut
 
         Debug.Log("air jump !");
         Debug.DrawRay(transform.position, -Vector3.up, Color.red, 5f);

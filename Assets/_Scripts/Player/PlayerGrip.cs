@@ -87,7 +87,7 @@ public class PlayerGrip : MonoBehaviour
     {
         rb.isKinematic = false;
         hardGrip = false;
-        SetHardGrip();
+        SetHardGrip(true);
     }
     #endregion
 
@@ -123,9 +123,9 @@ public class PlayerGrip : MonoBehaviour
     /// 
     /// </summary>
     [Button("HardGrip")]
-    private void SetHardGrip()
+    private void SetHardGrip(bool hardTrue)
     {
-        if (!hardGrip)
+        if (!hardGrip || hardTrue)
         {
             hardGrip = true;
             bool succes = SetGrip(true);
@@ -204,6 +204,10 @@ public class PlayerGrip : MonoBehaviour
             display.SetActive(false);
             rb.drag = playerController.InitialDrag;
             coolDownGrip.StartCoolDown();
+
+            if (ScoreManager.Instance.Data.GetSimplified())
+                waitHardUngrip.Reset();
+
             hardGrip = false;
             gripped = false;
             tryToAccrocheAfter = false;
@@ -220,7 +224,7 @@ public class PlayerGrip : MonoBehaviour
 
         if (inputPlayer.GripDownInput && !gripped && waitHardUngrip.IsReady())
         {
-            SetHardGrip();
+            SetHardGrip(true);
             Debug.Log("ici grip haaaaard !");
             waitHardUngrip.StartCoolDown();
         }
@@ -240,6 +244,13 @@ public class PlayerGrip : MonoBehaviour
                 GripHard();
             }
              
+        }
+
+        if (inputPlayer.GripInput && !gripped && waitHardUngrip.IsReady())
+        {
+            SetHardGrip(true);
+            Debug.Log("ici grip haaaaard !");
+            waitHardUngrip.StartCoolDown();
         }
 
 
@@ -270,7 +281,7 @@ public class PlayerGrip : MonoBehaviour
         yield return new WaitForEndOfFrame();
         if (playerManager.IsOtherIsGripped(playerController.IdPlayer) && !worldCollision.IsOnFloor())
         {
-            SetHardGrip();
+            SetHardGrip(true);
         }
     }
 

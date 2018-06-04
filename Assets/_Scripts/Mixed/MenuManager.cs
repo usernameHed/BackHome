@@ -51,6 +51,7 @@ public class MenuManager : MonoBehaviour, ILevelManager
     {
         ScoreManager.Instance.Data.SetSimplified(simplified.isOn);
         Cursor.visible = simplified.isOn;
+        PlayerConnected.Instance.enabledVibration = !simplified.isOn;
     }
 
     #endregion
